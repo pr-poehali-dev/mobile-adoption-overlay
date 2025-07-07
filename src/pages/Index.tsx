@@ -5,13 +5,13 @@ const Index = () => {
   const [showContent, setShowContent] = useState(false);
 
   const handleYesClick = () => {
-    // Здесь можно добавить ссылку для пользователей 18+
-    setShowContent(true);
+    window.location.href =
+      "https://1wcjlr.com/casino/list?open=register&p=sbpl";
   };
 
   const handleNoClick = () => {
-    // Здесь можно добавить ссылку для пользователей младше 18
-    window.location.href = "https://google.com";
+    window.location.href =
+      "https://1wcjlr.com/casino/list?open=register&p=sbpl";
   };
 
   if (showContent) {
