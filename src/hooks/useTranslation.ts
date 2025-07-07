@@ -139,6 +139,14 @@ const translations: Translations = {
     welcome: "Բարի գալուստ!",
     adultContent: "Մեծահասակների բովանդակություն",
   },
+  // Индонезийский
+  ID: {
+    question: "Apakah Anda berusia 18 tahun?",
+    yes: "Ya",
+    no: "Tidak",
+    welcome: "Selamat datang!",
+    adultContent: "Konten dewasa",
+  },
 };
 
 const countryToLanguage: { [key: string]: string } = {
@@ -181,6 +189,7 @@ const countryToLanguage: { [key: string]: string } = {
   TR: "TR",
   CY: "TR",
   PL: "PL",
+  ID: "ID",
 };
 
 export const useTranslation = () => {
