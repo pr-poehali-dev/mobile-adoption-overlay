@@ -30,9 +30,20 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-4">
+    <div
+      className="min-h-screen flex flex-col items-center justify-center p-4 relative"
+      style={{
+        backgroundImage: `url('https://cdn.poehali.dev/files/22bfdd8f-fb76-4a9f-b805-1a28bf651d21.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Темная накладка для лучшей читаемости */}
+      <div className="absolute inset-0 bg-black/50"></div>
+
       {/* Основная карточка */}
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full animate-scale-in">
+      <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 max-w-sm w-full animate-scale-in relative z-10">
         {/* Заголовок */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-800 leading-tight">
@@ -70,10 +81,10 @@ const Index = () => {
       </div>
 
       {/* Фоновые декоративные элементы */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute top-32 right-16 w-16 h-16 bg-white/10 rounded-full blur-xl animate-pulse delay-300"></div>
-      <div className="absolute bottom-20 left-20 w-24 h-24 bg-white/10 rounded-full blur-xl animate-pulse delay-500"></div>
-      <div className="absolute bottom-32 right-12 w-12 h-12 bg-white/10 rounded-full blur-xl animate-pulse delay-700"></div>
+      <div className="absolute top-10 left-10 w-20 h-20 bg-white/20 rounded-full blur-xl animate-pulse z-5"></div>
+      <div className="absolute top-32 right-16 w-16 h-16 bg-white/20 rounded-full blur-xl animate-pulse delay-300 z-5"></div>
+      <div className="absolute bottom-20 left-20 w-24 h-24 bg-white/20 rounded-full blur-xl animate-pulse delay-500 z-5"></div>
+      <div className="absolute bottom-32 right-12 w-12 h-12 bg-white/20 rounded-full blur-xl animate-pulse delay-700 z-5"></div>
     </div>
   );
 };
