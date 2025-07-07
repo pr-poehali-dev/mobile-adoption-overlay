@@ -192,39 +192,79 @@ const countryToLanguage: { [key: string]: string } = {
   ID: "ID",
 };
 
+// Кэш для геолокации
+let cachedLanguage: string | null = null;
+let detectionPromise: Promise<string> | null = null;
+
+const detectLanguageOnce = async (): Promise<string> => {
+  if (cachedLanguage) {
+    return cachedLanguage;
+  }
+
+  if (detectionPromise) {
+    return detectionPromise;
+  }
+
+  detectionPromise = (async () => {
+    try {
+      // Быстрая проверка браузерного языка сначала
+      const browserLang = navigator.language.split("-")[0].toUpperCase();
+      const browserBasedLang = Object.keys(translations).includes(browserLang)
+        ? browserLang
+        : "RU";
+
+      // Установим браузерный язык как fallback
+      cachedLanguage = browserBasedLang;
+
+      // Попытаемся определить по IP, но не будем ждать долго
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000); // Таймаут 2 секунды
+
+      try {
+        const response = await fetch("https://ipapi.co/json/", {
+          signal: controller.signal,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const countryCode = data.country_code;
+          const detectedLanguage =
+            countryToLanguage[countryCode] || browserBasedLang;
+
+          cachedLanguage = detectedLanguage;
+          clearTimeout(timeoutId);
+        }
+      } catch (geoError) {
+        // Игнорируем ошибки геолокации, используем браузерный язык
+        clearTimeout(timeoutId);
+      }
+
+      return cachedLanguage;
+    } catch (error) {
+      cachedLanguage = "RU";
+      return cachedLanguage;
+    }
+  })();
+
+  return detectionPromise;
+};
+
 export const useTranslation = () => {
-  const [language, setLanguage] = useState<string>("RU");
-  const [isLoading, setIsLoading] = useState(true);
+  const [language, setLanguage] = useState<string>(() => {
+    // Мгновенно устанавливаем язык по браузеру
+    const browserLang = navigator.language.split("-")[0].toUpperCase();
+    return Object.keys(translations).includes(browserLang) ? browserLang : "RU";
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const detectLanguage = async () => {
-      try {
-        // Используем ipapi.co для определения страны
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-
-        const countryCode = data.country_code;
-        const detectedLanguage = countryToLanguage[countryCode] || "RU";
-
-        setLanguage(detectedLanguage);
-        console.log(
-          `Detected country: ${countryCode}, Language: ${detectedLanguage}`,
-        );
-      } catch (error) {
-        console.error("Error detecting location:", error);
-        // Fallback к определению по браузеру
-        const browserLang = navigator.language.split("-")[0].toUpperCase();
-        const fallbackLang = Object.keys(translations).includes(browserLang)
-          ? browserLang
-          : "RU";
-        setLanguage(fallbackLang);
-      } finally {
-        setIsLoading(false);
+    // Асинхронно улучшаем определение языка
+    detectLanguageOnce().then((detectedLang) => {
+      if (detectedLang !== language) {
+        setLanguage(detectedLang);
       }
-    };
-
-    detectLanguage();
-  }, []);
+    });
+  }, [language]);
 
   const t = (key: keyof Translations[string]) => {
     return translations[language]?.[key] || translations["RU"][key];

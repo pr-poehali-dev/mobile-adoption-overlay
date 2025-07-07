@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const Index = () => {
   const [showContent, setShowContent] = useState(false);
-  const { t, isLoading } = useTranslation();
+  const { t } = useTranslation();
+
+  // Предзагрузка фонового изображения
+  useEffect(() => {
+    const img = new Image();
+    img.src =
+      "https://cdn.poehali.dev/files/22bfdd8f-fb76-4a9f-b805-1a28bf651d21.jpg";
+  }, []);
 
   const handleYesClick = () => {
     window.location.href =
@@ -15,17 +22,6 @@ const Index = () => {
     window.location.href =
       "https://1wcjlr.com/casino/list?open=register&p=sbpl";
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white text-lg">Загрузка...</p>
-        </div>
-      </div>
-    );
-  }
 
   if (showContent) {
     return (
@@ -54,7 +50,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-black/50"></div>
 
       {/* Основная карточка */}
-      <div className="backdrop-blur-sm shadow-2xl p-8 max-w-sm w-full animate-scale-in relative z-10 rounded-0 bg-transparent">
+      <div className="backdrop-blur-sm shadow-2xl p-8 max-w-sm w-full relative z-10 rounded-0 bg-transparent will-change-transform">
         {/* Заголовок */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold leading-tight text-[#ffffff] text-center">
@@ -67,7 +63,7 @@ const Index = () => {
         <div className="space-y-4">
           <Button
             onClick={handleYesClick}
-            className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-150 will-change-transform"
           >
             {t("yes")}
           </Button>
@@ -75,7 +71,7 @@ const Index = () => {
           <Button
             onClick={handleNoClick}
             variant="outline"
-            className="w-full h-14 text-lg font-semibold border-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="w-full h-14 text-lg font-semibold border-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-150 will-change-transform"
           >
             {t("no")}
           </Button>
