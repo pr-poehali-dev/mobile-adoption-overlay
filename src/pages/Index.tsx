@@ -46,7 +46,7 @@ const Index = () => {
       <div className="backdrop-blur-sm shadow-2xl p-8 max-w-sm w-full animate-scale-in relative z-10 rounded-0 bg-transparent">
         {/* Заголовок */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-800 leading-tight">
+          <h1 className="text-3xl font-bold leading-tight text-[#ffffff]">
             Вам есть 18?
           </h1>
           <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mt-4"></div>
