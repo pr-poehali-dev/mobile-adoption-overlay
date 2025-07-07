@@ -43,7 +43,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-black/50"></div>
 
       {/* Основная карточка */}
-      <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 max-w-sm w-full animate-scale-in relative z-10">
+      <div className="backdrop-blur-sm shadow-2xl p-8 max-w-sm w-full animate-scale-in relative z-10 rounded-0 bg-transparent">
         {/* Заголовок */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-800 leading-tight">
